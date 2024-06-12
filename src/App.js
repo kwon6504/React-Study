@@ -29,6 +29,12 @@ function App() {
   let arr = [1, 2, 3];
   // array/object 담은 변수엔 화살표만 저장됨
 
+  //동적인 UI만드는 방법
+  //1.html css로 미리 UI디자인을 다 해놓고
+  //2.UI의 현재 상태를 state로 저장해두고
+  //3.state에 따라서 UI가 어떻게 보일지 조건문 등으로 작성
+  let [modal, setModal] = useState(false);
+
   return (
     <div className="App">
       <div className='black-nav'>
@@ -66,11 +72,15 @@ function App() {
         <p>2월 17일 발행</p>
       </div>
       <div className='list'>
-        <h4>{글제목[2]}</h4>
+        <h4 onClick={()=>{setModal(!modal)}}>{글제목[2]}</h4>
         <p>2월 17일 발행</p>
       </div>
 
-      <Modal></Modal>
+      {
+        // if같은 자바 문법 사용불가 대신 삼항연산자 사용가능(ternary operator)
+        // 조건식 ? 참일때 실행할 코드 : 거짓일 때 실행할 코드
+        modal == true ? <Modal></Modal> : null
+      }
 
     </div>
   );
