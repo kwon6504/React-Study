@@ -20,8 +20,8 @@ function App() {
   // let c = num[1];
   //Destructuring 문법 = a,c와 1,2를 맞춰주는 문법 어레이 안에 있던 함수를 각각 변수로 빼주는 문법
 
-  let [따봉, 따봉변경] = useState(0);
-
+  let [따봉, 따봉변경] = useState([0, 0, 0]);
+  
   function 함수() { //긴 코드를 한 단어로 묶어주는 문법, () => {} 함수 만드는 다른 방식
     console.log(1);
   }
@@ -34,6 +34,14 @@ function App() {
   //2.UI의 현재 상태를 state로 저장해두고
   //3.state에 따라서 UI가 어떻게 보일지 조건문 등으로 작성
   let [modal, setModal] = useState(false);
+
+  //map함수(모든 array 뒤에 붙일수 있다.)
+  //1.array 자료 갯수만큼 함수안의 코드 실행해줌
+  //2.함수의 파라미터는 array안에 있던 자료가된다.
+  //3.return에 뭐 적으면 array로 담아준다.
+  // [1,2,3].map(function(){
+  //   return '112233';
+  // })
 
   return (
     <div className="App">
@@ -62,9 +70,9 @@ function App() {
       }}>글수정</button>
       {/* <button onClick={()=>{글제목변경('여자 코트 추천')}}>글수정</button> */}
 
-      <div className='list'>
+      {/* <div className='list'>
         <h4>{글제목[0]}<span onClick={() => { 따봉변경(따봉 + 1) }}>👍</span> {따봉} </h4>
-        {/* state 변경하는 법(등호로 변경금지) */}
+         state 변경하는 법(등호로 변경금지)
         <p>2월 17일 발행</p>
       </div>
       <div className='list'>
@@ -72,9 +80,27 @@ function App() {
         <p>2월 17일 발행</p>
       </div>
       <div className='list'>
-        <h4 onClick={()=>{setModal(!modal)}}>{글제목[2]}</h4>
+        <h4 onClick={() => { setModal(!modal) }}>{글제목[2]}</h4>
         <p>2월 17일 발행</p>
-      </div>
+      </div> */}
+
+      { //{a} or 글제목[i]는 같다 i는 array만큼 도는 숫자
+      //(참고2) 반복문으로 html 생성하면 key={html마다 다른 숫자}를 추가해야한다.
+        글제목.map(function (a, i) {
+          return (
+            <div className='list' key={i}>
+              <h4 onClick={() => { setModal(!modal) }}>{글제목[i]}
+                <span onClick={() => { 
+                  let up = [...따봉];
+                  up[i] = up[i]+1;
+                  따봉변경(up);
+                 }}>👍</span>{따봉[i]}
+              </h4>
+              <p>2월 17일 발행</p>
+            </div>
+          )
+        })
+      }
 
       {
         // if같은 자바 문법 사용불가 대신 삼항연산자 사용가능(ternary operator)
