@@ -45,6 +45,8 @@ function App() {
 
   let [title, setTitle] = useState(0);
   let [입력값, 입력값변경] = useState('');
+  let date = new Date();
+  let today = (date.getMonth() + 1)+'월'+ (date.getDate())+'일 발행';
 
   return (
     <div className="App">
@@ -101,7 +103,7 @@ function App() {
                   따봉변경(up);
                  }}>👍</span>{따봉[i]}
               </h4>
-              <p>2월 17일 발행</p>
+              <p>{today}</p>
               <button onClick={(e)=>{
                 let remove = [...글제목];
                 remove.splice(i,1);
@@ -117,8 +119,13 @@ function App() {
       <input onChange={(e)=>{ 입력값변경(e.target.value);
         console.log(입력값);
         }}></input>
-      <button onClick={()=>{
+      <button disabled={입력값.trim() === ''} onClick={()=>{
+        //disabled={입력값.trim() === ''} 는 글이 비어있을시 글발행 버튼 비활성화
         글제목변경([입력값, ...글제목]);
+        console.log();
+        let copy = [...따봉];
+        copy.unshift(0);
+        따봉변경(copy);
         // {글제목.push(입력값)}
         //코딩애플 답
         // let copy = [...글제목];
