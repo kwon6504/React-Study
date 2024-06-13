@@ -2,7 +2,7 @@
 
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
 
@@ -122,8 +122,7 @@ function App() {
       <button disabled={입력값.trim() === ''} onClick={()=>{
         //disabled={입력값.trim() === ''} 는 글이 비어있을시 글발행 버튼 비활성화
         글제목변경([입력값, ...글제목]);
-        console.log();
-        let copy = [...따봉];
+        let copy = [...따봉,0];
         copy.unshift(0);
         따봉변경(copy);
         // {글제목.push(입력값)}
@@ -138,6 +137,8 @@ function App() {
         // 조건식 ? 참일때 실행할 코드 : 거짓일 때 실행할 코드
         modal == true ? <Modal color="skyblue" 글제목={글제목} 글제목변경={글제목변경} title={title}></Modal> : null
       }
+
+      <Modal2></Modal2>
 
     </div>
   );
@@ -183,5 +184,26 @@ function Modal(props) {
 //     </div>
 //   );
 // };
+
+//옛날 리액트 문법
+class Modal2 extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      name : 'kim',
+      age : 20
+    }
+  }
+  render(){
+    return(
+      <div>안녕 {this.state.name} 
+      {/* {this.props} */}
+      <button onClick={()=>{
+        this.setState({name : 'kwon'})
+      }}>버튼</button>
+      </div>
+    )
+  }
+}
 
 export default App;
