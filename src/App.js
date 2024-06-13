@@ -105,13 +105,12 @@ function App() {
       {
         // if같은 자바 문법 사용불가 대신 삼항연산자 사용가능(ternary operator)
         // 조건식 ? 참일때 실행할 코드 : 거짓일 때 실행할 코드
-        modal == true ? <Modal></Modal> : null
+        modal == true ? <Modal color="skyblue" 글제목={글제목} 글제목변경={글제목변경}></Modal> : null
       }
 
     </div>
   );
 }
-
 
 {/* 컴포넌트(Component) 만드는법
       1. function만들고
@@ -122,14 +121,23 @@ function App() {
       2. 큰 페이지들
       3. 자주변경되는 것들
     컴포넌트 단점 : state 가져다쓸 때 문제생김(A함수에 잇던 변수는 B함수에서 맘대로 가져다 쓸 수 없음)*/}
-function Modal() {
+// props문법 = 부모>자식 state 전송하는 문법
+//1.<자식컴포넌트 작명={state이름}>
+//2.props 파라미터 등록 후 props.작명 사용
+//props 전송은 부모 > 자식 만 가능, 컴포넌트 많아지면 props 쓰는게 귀찮아짐
+function Modal(props) {
   return (
     //의미 없는 div 만들기 싫을때 <></>사용가능하다 
     <>
-      <div className='modal'>
-        <h4>제목</h4>
+      <div className='modal' style={{background : props.color}}>
+        <h4>{props.글제목[0]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        <button onClick={()=>{
+          let copy = [...props.글제목];
+          copy[0] = '여자 코트 추천';
+          {props.글제목변경(copy)};
+        }}>글수정</button>
       </div>
     </>
   );
