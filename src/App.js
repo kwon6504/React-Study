@@ -43,6 +43,9 @@ function App() {
   //   return '112233';
   // })
 
+  let [title, setTitle] = useState(0);
+  let [입력값, 입력값변경] = useState('');
+
   return (
     <div className="App">
       <div className='black-nav'>
@@ -89,23 +92,44 @@ function App() {
         글제목.map(function (a, i) {
           return (
             <div className='list' key={i}>
-              <h4 onClick={() => { setModal(!modal) }}>{글제목[i]}
-                <span onClick={() => { 
+              <h4 onClick={() => { setModal(!modal); setTitle(i) }}>{글제목[i]}
+                <span onClick={(e) => { 
+                  // 상위html로 퍼지는 이벤트 버블링을 막고싶으면 e.stopPropagation()를 추가하면된다.
+                  e.stopPropagation();
                   let up = [...따봉];
                   up[i] = up[i]+1;
                   따봉변경(up);
                  }}>👍</span>{따봉[i]}
               </h4>
               <p>2월 17일 발행</p>
+              <button onClick={(e)=>{
+                let remove = [...글제목];
+                remove.splice(i,1);
+                글제목변경(remove);
+              }}>글삭제</button>
             </div>
           )
         })
       }
 
+      {/* <input> 태그
+      뭔가 입력시 코드실행하고 싶으면 onChange/onInput */}
+      <input onChange={(e)=>{ 입력값변경(e.target.value);
+        console.log(입력값);
+        }}></input>
+      <button onClick={()=>{
+        글제목변경([입력값, ...글제목]);
+        // {글제목.push(입력값)}
+        //코딩애플 답
+        // let copy = [...글제목];
+        // copy.unshift(입력값);
+        // 글제목변경(copy);
+      }}>글발행</button>
+
       {
         // if같은 자바 문법 사용불가 대신 삼항연산자 사용가능(ternary operator)
         // 조건식 ? 참일때 실행할 코드 : 거짓일 때 실행할 코드
-        modal == true ? <Modal color="skyblue" 글제목={글제목} 글제목변경={글제목변경}></Modal> : null
+        modal == true ? <Modal color="skyblue" 글제목={글제목} 글제목변경={글제목변경} title={title}></Modal> : null
       }
 
     </div>
@@ -130,9 +154,10 @@ function Modal(props) {
     //의미 없는 div 만들기 싫을때 <></>사용가능하다 
     <>
       <div className='modal' style={{background : props.color}}>
-        <h4>{props.글제목[0]}</h4>
+        <h4>{props.글제목[props.title]}</h4>
         <p>날짜</p>
         <p>상세내용</p>
+        {/* 코딩애플 방식 button onClick={()=>{props.글제목변경(['여자 코트 추천','강남 우동 맛집', '파이썬 독학'])}} */}
         <button onClick={()=>{
           let copy = [...props.글제목];
           copy[0] = '여자 코트 추천';
